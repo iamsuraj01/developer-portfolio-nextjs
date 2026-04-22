@@ -353,7 +353,7 @@ export const educationData = [
 
 |  Client Side Packages  |
 | :--------------------: |
-|   @material-ui/core    |
+|     @mui/material      |
 |   @material-ui/icons   |
 |    @emailjs/browser    |
 |      react-lottie      |
