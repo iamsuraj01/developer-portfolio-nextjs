@@ -51,7 +51,6 @@ function Contacts() {
           )
           .then(
             (result) => {
-              console.log("success");
               setSuccess(true);
               setErrMsg("");
               setName("");

@@ -1,32 +1,47 @@
 import { Container } from "@mui/material";
 import React, { useContext } from "react";
-import experience from "../../assets/lottie/development.json";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ThemeContext } from "../../contexts/theme-context";
 import { experienceData } from "../../data/experience-data";
-import styles from "../../styles/experience.module.css";
-import AnimationLottie from "../animation";
 import ExperienceCard from "./experience-card";
 
 function Experience() {
   const { theme } = useContext(ThemeContext);
+  const { scrollYProgress } = useScroll();
+  const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
+
   return (
-    <div style={{ backgroundColor: theme.secondary }}>
-      <Container className={styles.experience} id="experience">
-        <div className={styles.experienceBody}>
-          <div className={styles.experienceImage}>
-            <AnimationLottie animationPath={experience} />
-          </div>
-          <div className={styles.experienceDescription}>
-            <h1 style={{ color: theme.primary }}>Experience</h1>
-            {experienceData.map((exp) => (
-              <ExperienceCard
-                key={exp.id}
-                id={exp.id}
-                jobtitle={exp.jobtitle}
-                company={exp.company}
-                startYear={exp.startYear}
-                endYear={exp.endYear}
-              />
+    <div style={{ backgroundColor: theme.secondary }} className="py-20">
+      <Container maxWidth="lg" id="experience">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <h2
+            style={{ color: theme.primary }}
+            className="text-4xl md:text-5xl font-bold mb-4"
+          >
+            Work Experience
+          </h2>
+          <div
+            style={{ backgroundColor: theme.primary }}
+            className="w-20 h-1 mx-auto rounded-full"
+          />
+        </motion.div>
+
+        <div className="relative">
+          {/* Timeline line */}
+          <div
+            style={{ backgroundColor: `${theme.primary}30` }}
+            className="absolute left-8 md:left-1/2 transform md:-translate-x-px h-full w-0.5"
+          />
+
+          <div className="space-y-8">
+            {experienceData.map((exp, index) => (
+              <ExperienceCard key={exp.id} experience={exp} index={index} />
             ))}
           </div>
         </div>
