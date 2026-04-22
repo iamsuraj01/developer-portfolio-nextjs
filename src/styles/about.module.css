@@ -1,144 +1,122 @@
 .about {
-  min-height: fit-content;
-  position: relative;
-}
-
-.about .lineStyling {
-  position: absolute;
-  top: 50px;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 50px;
-  width: 85%;
+  min-height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  padding: 4rem 2rem;
 }
 
-.about .lineStyling .styleCircle {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+.aboutContainer {
+  display: flex;
+  width: 100%;
+  max-width: 1400px;
+  gap: 4rem;
+  align-items: center;
 }
 
-.about .lineStyling .styleLine {
-  width: 95%;
-  height: 5px;
-  border-radius: 10px;
+/* LEFT: Text */
+.aboutLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.aboutBody {
-  display: grid;
-  grid-template-columns: 60% 40%;
-  padding-top: 8rem;
-  height: fit-content;
+.aboutTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .aboutDescription {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+/* Highlights */
+.highlightsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.highlight {
+  padding: 0.8rem 1.5rem;
+  border: 2px solid;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.highlight:hover {
+  transform: translateX(5px);
+}
+
+/* RIGHT: Image */
+.aboutRight {
+  flex: 1;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-evenly;
-  flex: 0.5;
-  width: 100%;
-  height: fit-content;
-}
-
-.aboutDescription > h2 {
-  margin-bottom: 40px;
-  font-size: 2.5rem;
-  font-family: var(--primaryFont);
-}
-
-.aboutDescription > p {
-  font-size: 1.25rem;
-  color: #e0d9d9;
-  font-family: var(--primaryFont);
-}
-
-.aboutAnimation {
-  pointer-events: none;
-  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
-@media (min-width: 992px) and (max-width: 1380px) {
-  .aboutDescription > h2 {
-    font-size: 3.3rem;
-    margin-bottom: 30px;
-  }
-  .aboutDescription > p {
-    font-size: 1.15rem;
-  }
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 20px;
 }
 
-@media screen and (max-width: 992px) {
-  .about .lineStyling {
-    top: 20px;
+.aboutImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.imageWrapper:hover .aboutImage {
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .aboutContainer {
+    flex-direction: column;
   }
 
-  .aboutBody {
-    padding-top: 2rem;
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    justify-content: space-evenly;
+  .aboutTitle {
+    font-size: 2rem;
   }
 
   .aboutDescription {
-    flex: 0.6;
-    box-sizing: border-box;
-    /* padding: 5% 10%; */
-    padding: 20px;
-  }
-
-  .aboutDescription > h2 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-  }
-
-  .aboutDescription > p {
-    font-size: 1.1rem;
-  }
-
-  .aboutImg > img {
-    width: 250px;
-    flex: 0.4;
+    font-size: 1rem;
   }
 }
 
-@media screen and (max-width: 800px) {
-  .about .lineStyling .styleCircle {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-  }
-  .aboutDescription > h2 {
-    align-self: center;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .about .lineStyling .styleCircle {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-  }
-  .about .lineStyling .styleLine {
-    width: 93%;
-    height: 3px;
-    border-radius: 10px;
+@media (max-width: 768px) {
+  .about {
+    padding: 2rem 1rem;
   }
 
-  .aboutDescription > h2 {
-    font-size: 2.5rem;
+  .aboutTitle {
+    font-size: 1.5rem;
   }
 
-  .aboutDescription > p {
+  .aboutDescription {
     font-size: 0.95rem;
   }
 
-  .aboutImg > img {
-    width: 200px;
+  .highlightsContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .imageWrapper {
+    max-width: 300px;
   }
 }
