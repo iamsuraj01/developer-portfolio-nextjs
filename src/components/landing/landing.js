@@ -62,7 +62,7 @@ function Landing() {
             )}
           </div>
         </div>
-        <Image
+        {/* <Image
           src={headerData.image}
           alt=""
           width={350}
@@ -72,13 +72,13 @@ function Landing() {
             opacity: `${drawerOpen ? "0" : "1"}`,
             borderColor: theme.primary,
           }}
-        />
-        <div
+        /> */}
+        {/* <div
           className={styles.landingContainerRight}
           style={{ backgroundColor: theme.secondary }}
         >
           <div className={styles.lcrContent} style={{ color: theme.tertiary }}>
-            {/* <h6 style={{ color: theme.primary }}>{headerData.title}</h6> */}
+            <h6 style={{ color: theme.primary }}>{headerData.title}</h6>
             <h1>{headerData.name}</h1>
             <Typed
               strings={[
@@ -91,7 +91,6 @@ function Landing() {
               className={styles.typedHeader}
               style={{ color: theme.primary, fontSize: "20px" }}
               loop
-              startWhenVisible
             />
             <p>{headerData.desciption}</p>
 
@@ -129,7 +128,7 @@ function Landing() {
               </Link>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
