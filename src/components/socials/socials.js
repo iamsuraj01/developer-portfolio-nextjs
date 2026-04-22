@@ -1,27 +1,9 @@
 import React from "react";
-import type { IconType } from "react-icons";
 import { FaGithub, FaLinkedin, FaTwitter, FaFacebook } from "react-icons/fa";
 import styles from "@styles/socials.module.css";
+import { socialsData } from "@data/socials-data";
 
-interface SocialLink {
-  name: string;
-  url: string;
-  icon: IconType;
-}
-
-interface SocialsProps {
-  links: SocialLink[];
-  size?: "small" | "medium" | "large";
-  theme?: {
-    primary: string;
-  };
-}
-
-export const Socials: React.FC<SocialsProps> = ({
-  links,
-  size = "medium",
-  theme,
-}) => {
+export const Socials = ({ links, size = "medium", theme }) => {
   return (
     <div className={`${styles.socials} ${styles[size]}`}>
       {links.map((link) => {
@@ -44,25 +26,25 @@ export const Socials: React.FC<SocialsProps> = ({
   );
 };
 
-export const socialLinksConfig: SocialLink[] = [
+export const socialLinksConfig = [
   {
     name: "GitHub",
-    url: "https://github.com/yourusername",
+    url: socialsData.github,
     icon: FaGithub,
   },
   {
     name: "LinkedIn",
-    url: "https://linkedin.com/in/yourusername",
+    url: socialsData.linkedIn,
     icon: FaLinkedin,
   },
-  {
-    name: "Twitter",
-    url: "https://twitter.com/yourusername",
-    icon: FaTwitter,
-  },
-  {
-    name: "Facebook",
-    url: "https://facebook.com/yourusername",
-    icon: FaFacebook,
-  },
+  // {
+  //   name: "Twitter",
+  //   url: socialsData.twitter || "https://twitter.com/yourusername",
+  //   icon: FaTwitter,
+  // },
+  // {
+  //   name: "Facebook",
+  //   url: socialsData.facebook || "https://facebook.com/yourusername",
+  //   icon: FaFacebook,
+  // },
 ];

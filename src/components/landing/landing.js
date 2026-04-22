@@ -50,22 +50,6 @@ const Landing = () => {
 
             {/* Buttons */}
             <div className={styles.buttonContainer}>
-              <Link
-                href={landingData.buttons.contact.href}
-                className={styles.contactBtn}
-              >
-                <button
-                  className={styles.contactBtn}
-                  style={{
-                    borderColor: theme.primary,
-                    color: theme.primary,
-                  }}
-                >
-                  {landingData.buttons.contact.icon}{" "}
-                  {landingData.buttons.contact.label}
-                </button>
-              </Link>
-
               <a
                 href={landingData.buttons.resume.href}
                 download

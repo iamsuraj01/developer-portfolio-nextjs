@@ -27,15 +27,10 @@ export const landingData = {
   roles: ["Software Developer", "Full Stack Developer", "Backend Developer"],
 
   buttons: {
-    contact: {
-      label: "CONTACT ME",
-      icon: "👤",
-      href: "#contacts",
-    },
     resume: {
-      label: "GET RESUME",
-      icon: "⬇️",
-      href: "/resume.pdf", // Place your resume in public folder
+      label: "RESUME",
+      icon: "📄",
+      href: "https://res.cloudinary.com/dtobk2sho/raw/upload/v1776837063/suraj_developer_resume_2026_dymqfb.docx", // Place your resume in public folder
     },
   },
 
