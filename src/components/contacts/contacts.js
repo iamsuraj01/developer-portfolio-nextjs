@@ -1,9 +1,9 @@
 import emailjs from "@emailjs/browser";
-import { IconButton, Snackbar, SnackbarContent } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import { AiOutlineCheckCircle, AiOutlineSend } from "react-icons/ai";
+import { BiErrorCircle } from "react-icons/bi";
+import { FaSpinner } from "react-icons/fa";
 import {
   FaFacebook,
   FaGithub,
@@ -12,7 +12,7 @@ import {
   FaStackOverflow,
   FaTwitter,
 } from "react-icons/fa";
-import { FiAtSign, FiPhone } from "react-icons/fi";
+import { FiAtSign } from "react-icons/fi";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import isEmail from "validator/lib/isEmail";
 import { ThemeContext } from "../../contexts/theme-context";
@@ -21,55 +21,136 @@ import { socialsData } from "../../data/socials-data";
 import styles from "../../styles/contacts.module.css";
 
 function Contacts() {
-  const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
+  const [isSending, setIsSending] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [subscribeEmail, setSubscribeEmail] = useState("");
+  const [wantPromos, setWantPromos] = useState(false);
+
   const form = useRef();
   const { theme } = useContext(ThemeContext);
 
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (showSuccessModal || showErrorModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
     }
-    setOpen(false);
-  };
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [showSuccessModal, showErrorModal]);
 
-  const handleContactForm = (e) => {
+  const handleContactForm = async (e) => {
     e.preventDefault();
 
-    if (name && email && message) {
-      if (isEmail(email)) {
-        emailjs
-          .sendForm(
-            process.env.REACT_APP_YOUR_SERVICE_ID,
-            process.env.REACT_APP_YOUR_TEMPLATE_ID,
-            form.current,
-            process.env.REACT_APP_YOUR_PUBLIC_KEY,
-          )
-          .then(
-            (result) => {
-              setSuccess(true);
-              setErrMsg("");
-              setName("");
-              setEmail("");
-              setMessage("");
-              setOpen(false);
-            },
-            (error) => {
-              console.log(error.text);
-            },
-          );
-      } else {
-        setErrMsg("Invalid email");
-        setOpen(true);
-      }
-    } else {
-      setErrMsg("Enter all the fields");
-      setOpen(true);
+    // Validation
+    if (!name || !email || !message) {
+      setErrorMessage("Please fill in all fields before sending.");
+      setShowErrorModal(true);
+      return;
     }
+
+    if (!isEmail(email)) {
+      setErrorMessage(
+        "Please enter a valid email address (e.g., name@example.com).",
+      );
+      setShowErrorModal(true);
+      return;
+    }
+
+    setIsSending(true);
+
+    try {
+      // Send notification to yourself
+      const notificationResult = await emailjs.sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+        form.current,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
+      );
+
+      console.log("Notification sent:", notificationResult.text);
+
+      // Prepare auto-reply parameters
+      const autoReplyParams = {
+        user_name: name,
+        user_email: email,
+        message: message,
+        submission_date: new Date().toLocaleString(),
+        your_name: "Suraj Gaire",
+        your_title: "Full Stack Developer",
+        your_email: "iamsurajgdeveloper01@email.com",
+        github: "https://github.com/iamsuraj01",
+        linkedin: "https://www.linkedin.com/in/gairesuraj/",
+        your_portfolio_url: "https://surajgaire.com.np",
+      };
+
+      // Send auto-reply email
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        process.env.NEXT_PUBLIC_EMAILJS_AUTO_REPLY_ID,
+        autoReplyParams,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
+      );
+
+      console.log("Auto-reply sent successfully");
+
+      // Clear form
+      setName("");
+      setEmail("");
+      setMessage("");
+
+      // Show success modal
+      setShowSuccessModal(true);
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+
+      // Show specific error messages
+      if (
+        error.text?.includes("public key") ||
+        error.text?.includes("API key")
+      ) {
+        setErrorMessage(
+          "Configuration error. Please contact the site administrator.",
+        );
+      } else if (
+        error.text?.includes("network") ||
+        error.text?.includes("fetch")
+      ) {
+        setErrorMessage(
+          "Network error. Please check your internet connection and try again.",
+        );
+      } else {
+        setErrorMessage(
+          error.text ||
+            "Something went wrong. Please try again in a few moments.",
+        );
+      }
+      setShowErrorModal(true);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const handleSubscribe = () => {
+    if (subscribeEmail && isEmail(subscribeEmail)) {
+      console.log("Subscribed:", { email: subscribeEmail, promos: wantPromos });
+      // You can add newsletter subscription API here
+      setSubscribeEmail("");
+      setWantPromos(false);
+    }
+  };
+
+  const closeModal = () => {
+    setShowSuccessModal(false);
+    setShowErrorModal(false);
+    setErrorMessage("");
   };
 
   return (
@@ -79,18 +160,17 @@ function Contacts() {
       style={{ backgroundColor: theme.secondary }}
     >
       <div className={styles.contactsContainer}>
-        <h1 style={{ color: theme.primary }}>Contacts</h1>
+        <h1 style={{ color: theme.primary }}>Get In Touch</h1>
         <div className={styles.contactsBody}>
           <div className={styles.contactsForm}>
             <form ref={form} onSubmit={handleContactForm}>
               <div className={styles.inputContainer}>
                 <label
                   htmlFor="Name"
-                  className="bg-[#15202B] text-[#EFF3F4] 
-                                font-semibold text-[0.9rem] py-0 px-[5px] 
-                                inline-flex translate-x-[25px] translate-y-[50%]"
+                  className={styles.formLabel}
+                  style={{ color: theme.tertiary }}
                 >
-                  Name
+                  Your Name
                 </label>
                 <input
                   placeholder="John Doe"
@@ -98,255 +178,260 @@ function Contacts() {
                   onChange={(e) => setName(e.target.value)}
                   type="text"
                   name="user_name"
-                  className={`${styles.formInput}  
-                                    border-2 border-[#8B98A5] bg-[#15202B]
-                                     text-[#EFF3F4] font-medium transition 
-                                     focus:border-[#1D9BF0]`}
+                  className={styles.formInput}
+                  style={{
+                    borderColor: theme.tertiary,
+                    backgroundColor: theme.secondary,
+                    color: theme.tertiary,
+                  }}
+                  disabled={isSending}
+                  required
                 />
               </div>
               <div className={styles.inputContainer}>
                 <label
                   htmlFor="Email"
-                  className="bg-[#15202B] text-[#EFF3F4] 
-                                    font-semibold text-[0.9rem] px-[5px] 
-                                    inline-flex translate-x-[25px] 
-                                    translate-y-[50%]"
+                  className={styles.formLabel}
+                  style={{ color: theme.tertiary }}
                 >
-                  Email
+                  Email Address
                 </label>
                 <input
-                  placeholder="John@doe.com"
+                  placeholder="john@doe.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   name="user_email"
-                  className={`${styles.formInput}  
-                                    border-2 border-[#8B98A5] bg-[#15202B]
-                                     text-[#EFF3F4] font-medium transition
-                                      focus:border-[#1D9BF0]`}
+                  className={styles.formInput}
+                  style={{
+                    borderColor: theme.tertiary,
+                    backgroundColor: theme.secondary,
+                    color: theme.tertiary,
+                  }}
+                  disabled={isSending}
+                  required
                 />
               </div>
               <div className={styles.inputContainer}>
                 <label
                   htmlFor="Message"
-                  className="bg-[#15202B] text-[#EFF3F4]
-                                     font-semibold text-[0.9rem] px-[5px] 
-                                     inline-flex translate-x-[25px] 
-                                     translate-y-[50%]"
+                  className={styles.formLabel}
+                  style={{ color: theme.tertiary }}
                 >
-                  Message
+                  Your Message
                 </label>
                 <textarea
-                  placeholder="Type your message...."
+                  placeholder="Type your message here..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  type="text"
                   name="message"
-                  className={`${styles.formMessage} 
-                                    border-2 border-[#8B98A5] 
-                                    focus:border-[#1D9BF0] bg-[#15202B]
-                                     text-[#EFF3F4] font-medium transition`}
+                  className={styles.formMessage}
+                  style={{
+                    borderColor: theme.tertiary,
+                    backgroundColor: theme.secondary,
+                    color: theme.tertiary,
+                  }}
+                  disabled={isSending}
+                  required
                 />
               </div>
 
               <div className={styles.submitBtn}>
                 <button
                   type="submit"
-                  className="bg-[#1D9BF0] 
-                                    hover:bg-[#8B98A5] text-[#15202B]
-                                     transition delay-200 "
+                  className={styles.submitButton}
+                  style={{
+                    backgroundColor: theme.primary,
+                    color: theme.secondary,
+                  }}
+                  disabled={isSending}
                 >
-                  <p>{!success ? "Send" : "Sent"}</p>
-                  <div className={styles.submitIcon}>
-                    <AiOutlineSend
-                      className={styles.sendIcon}
-                      style={{
-                        animation: !success
-                          ? "initial"
-                          : "fly 0.8s linear both",
-                        position: success ? "absolute" : "initial",
-                      }}
-                    />
-                    <AiOutlineCheckCircle
-                      className={styles.successIcon}
-                      style={{
-                        display: !success ? "none" : "inline-flex",
-                        opacity: !success ? "0" : "1",
-                      }}
-                    />
-                  </div>
+                  {isSending ? (
+                    <>
+                      <FaSpinner className={styles.spinningIcon} />
+                      <span>Sending Message...</span>
+                    </>
+                  ) : (
+                    <>
+                      <AiOutlineSend className={styles.sendIcon} />
+                      <span>Send Message</span>
+                    </>
+                  )}
                 </button>
               </div>
             </form>
-            <Snackbar
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "center",
-              }}
-              open={open}
-              autoHideDuration={4000}
-              onClose={handleClose}
-            >
-              <SnackbarContent
-                action={
-                  <React.Fragment>
-                    <IconButton
-                      size="small"
-                      aria-label="close"
-                      color="inherit"
-                      onClick={handleClose}
-                    >
-                      <CloseIcon fontSize="small" />
-                    </IconButton>
-                  </React.Fragment>
-                }
-                style={{
-                  backgroundColor: theme.primary,
-                  color: theme.secondary,
-                  fontFamily: "var(--primaryFont)",
-                }}
-                message={errMsg}
-              />
-            </Snackbar>
           </div>
 
           <div className={styles.contactsDetails}>
             <a
               href={`mailto:${contactsData.email}`}
               className={styles.personalDetails}
+              style={{ textDecoration: "none" }}
             >
               <div
-                className="w-[45px] h-[45px] 
-                            rounded-[50%] flex items-center 
-                            justify-center text-2xl transition 
-                            ease-in-out text-[#15202B] bg-[#8B98A5]
-                             hover:bg-[#1D9BF0] hover:scale-[1.1] 
-                             shrink delay-200"
+                className={styles.iconWrapper}
+                style={{ backgroundColor: theme.primary }}
               >
-                <FiAtSign />
+                <FiAtSign style={{ color: theme.secondary }} />
               </div>
               <p style={{ color: theme.tertiary }}>{contactsData.email}</p>
             </a>
-            <a
-              href={`tel:${contactsData.phone}`}
-              className={styles.personalDetails}
-            >
-              <div
-                className="w-[45px] h-[45px] 
-                            rounded-[50%] flex items-center 
-                            justify-center text-2xl transition 
-                            ease-in-out text-[#15202B] bg-[#8B98A5]
-                             hover:bg-[#1D9BF0] hover:scale-[1.1] 
-                             shrink delay-200"
-              >
-                <FiPhone />
-              </div>
-              <p style={{ color: theme.tertiary }}>{contactsData.phone}</p>
-            </a>
+
             <div className={styles.personalDetails}>
               <div
-                className="w-[45px] h-[45px]
-                             rounded-[50%] flex items-center 
-                             justify-center text-2xl transition 
-                             ease-in-out text-[#15202B] bg-[#8B98A5]
-                              hover:bg-[#1D9BF0] hover:scale-[1.1]
-                               shrink delay-200"
+                className={styles.iconWrapper}
+                style={{ backgroundColor: theme.primary }}
               >
-                <HiOutlineLocationMarker />
+                <HiOutlineLocationMarker style={{ color: theme.secondary }} />
               </div>
               <p style={{ color: theme.tertiary }}>{contactsData.address}</p>
             </div>
 
             <div className={styles.socialmediaIcons}>
-              {socialsData.twitter && (
-                <a
-                  href={socialsData.twitter}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-[45px] h-[45px] 
-                                    rounded-[50%] flex items-center 
-                                    justify-center text-xl transition
-                                     ease-in-out text-[#15202B] bg-[#8B98A5]
-                                      hover:bg-[#1D9BF0]"
-                >
-                  <FaTwitter aria-label="Twitter" />
-                </a>
-              )}
-              {socialsData.github && (
-                <a
-                  href={socialsData.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-[45px] h-[45px] 
-                                    rounded-[50%] flex items-center justify-center
-                                     text-xl transition ease-in-out text-[#15202B]
-                                      bg-[#8B98A5] hover:bg-[#1D9BF0]"
-                >
-                  <FaGithub aria-label="GitHub" />
-                </a>
-              )}
-              {socialsData.linkedIn && (
-                <a
-                  href={socialsData.linkedIn}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-[45px] h-[45px] rounded-[50%] flex 
-                                    items-center justify-center text-xl transition 
-                                    ease-in-out text-[#15202B] bg-[#8B98A5] 
-                                    hover:bg-[#1D9BF0]"
-                >
-                  <FaLinkedinIn aria-label="LinkedIn" />
-                </a>
-              )}
-
-              {socialsData.medium && (
-                <a
-                  href={socialsData.medium}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-[45px] h-[45px] rounded-[50%] flex 
-                                    items-center justify-center text-xl transition 
-                                    ease-in-out text-[#15202B] bg-[#8B98A5] 
-                                    hover:bg-[#1D9BF0]"
-                >
-                  <FaMediumM aria-label="Medium" />
-                </a>
-              )}
-
-              {socialsData.stackOverflow && (
-                <a
-                  href={socialsData.stackOverflow}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-[45px] h-[45px] rounded-[50%] flex 
-                                    items-center justify-center text-xl transition 
-                                    ease-in-out text-[#15202B] bg-[#8B98A5] 
-                                    hover:bg-[#1D9BF0]"
-                >
-                  <FaStackOverflow aria-label="Stack Overflow" />
-                </a>
-              )}
-              {socialsData.facebook && (
-                <a
-                  href={socialsData.facebook}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-[45px] h-[45px] rounded-[50%] flex
-                                     items-center justify-center text-xl transition
-                                      ease-in-out text-[#15202B] bg-[#8B98A5]
-                                       hover:bg-[#1D9BF0]"
-                >
-                  <FaFacebook aria-label="facebook" />
-                </a>
-              )}
+              <p style={{ color: theme.tertiary, marginBottom: "1rem" }}>
+                Connect with me
+              </p>
+              <div className={styles.socialIconsContainer}>
+                {socialsData.twitter && (
+                  <a
+                    href={socialsData.twitter}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.socialIcon}
+                    style={{ backgroundColor: theme.primary }}
+                  >
+                    <FaTwitter style={{ color: theme.secondary }} />
+                  </a>
+                )}
+                {socialsData.github && (
+                  <a
+                    href={socialsData.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.socialIcon}
+                    style={{ backgroundColor: theme.primary }}
+                  >
+                    <FaGithub style={{ color: theme.secondary }} />
+                  </a>
+                )}
+                {socialsData.linkedIn && (
+                  <a
+                    href={socialsData.linkedIn}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.socialIcon}
+                    style={{ backgroundColor: theme.primary }}
+                  >
+                    <FaLinkedinIn style={{ color: theme.secondary }} />
+                  </a>
+                )}
+                {socialsData.medium && (
+                  <a
+                    href={socialsData.medium}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.socialIcon}
+                    style={{ backgroundColor: theme.primary }}
+                  >
+                    <FaMediumM style={{ color: theme.secondary }} />
+                  </a>
+                )}
+                {socialsData.stackOverflow && (
+                  <a
+                    href={socialsData.stackOverflow}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.socialIcon}
+                    style={{ backgroundColor: theme.primary }}
+                  >
+                    <FaStackOverflow style={{ color: theme.secondary }} />
+                  </a>
+                )}
+                {socialsData.facebook && (
+                  <a
+                    href={socialsData.facebook}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.socialIcon}
+                    style={{ backgroundColor: theme.primary }}
+                  >
+                    <FaFacebook style={{ color: theme.secondary }} />
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className={styles.modalOverlay} onClick={closeModal}>
+          <div
+            className={styles.modalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={styles.modalHeader}>
+              <div className={styles.successIconCircle}>
+                <AiOutlineCheckCircle />
+              </div>
+              <button className={styles.modalClose} onClick={closeModal}>
+                ✕
+              </button>
+            </div>
+
+            <h2 className={styles.modalTitle}>Thank you! 🎉</h2>
+            <p className={styles.modalMessage}>
+              We've received your message.
+              <br />
+              Someone from our team will contact you soon.
+            </p>
+
+            <div className={styles.modalButtons}>
+              <button className={styles.closeButton} onClick={closeModal}>
+                CLOSE
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Error Modal */}
+      {showErrorModal && (
+        <div className={styles.modalOverlay} onClick={closeModal}>
+          <div
+            className={`${styles.modalContent} ${styles.errorModal}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={styles.modalHeader}>
+              <div className={styles.errorIconCircle}>
+                <BiErrorCircle />
+              </div>
+              <button className={styles.modalClose} onClick={closeModal}>
+                ✕
+              </button>
+            </div>
+
+            <h2 className={styles.modalTitle}>Error! 😔</h2>
+            <p className={styles.modalMessage}>{errorMessage}</p>
+
+            <div className={styles.modalButtons}>
+              <button className={styles.okButton} onClick={closeModal}>
+                Try Again
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Image
         src={theme.contactsimg}
-        alt="contacts"
+        alt="Contact illustration"
         className={styles.contactsImg}
+        width={280}
+        height={280}
+        style={{ width: "auto", height: "auto" }}
+        priority={false}
       />
     </div>
   );
