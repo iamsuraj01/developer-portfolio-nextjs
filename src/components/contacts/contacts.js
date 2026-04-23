@@ -1,6 +1,6 @@
 import emailjs from "@emailjs/browser";
 import { IconButton, Snackbar, SnackbarContent } from "@mui/material";
-import CloseIcon from "@material-ui/icons/Close";
+import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
 import React, { useContext, useRef, useState } from "react";
 import { AiOutlineCheckCircle, AiOutlineSend } from "react-icons/ai";
@@ -51,7 +51,6 @@ function Contacts() {
           )
           .then(
             (result) => {
-              console.log("success");
               setSuccess(true);
               setErrMsg("");
               setName("");

@@ -1,144 +1,434 @@
+/* about.module.css - Optimized version */
 .about {
-  min-height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 3rem;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle animated background */
+.about::before {
+  content: "";
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  top: -25%;
+  left: -25%;
+  background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.02) 80%);
+  animation: slowRotate 30s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes slowRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.aboutContainer {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  gap: 5rem;
+  align-items: center;
+  flex-direction: row;
+  padding: 2rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+.aboutHeader {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-family: var(--primaryFont);
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
   position: relative;
 }
 
-.about .lineStyling {
-  position: absolute;
-  top: 50px;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 50px;
-  width: 85%;
+.titleUnderline {
+  width: 60px;
+  height: 4px;
+  border-radius: 2px;
+  animation: underlineSlide 0.6s ease-out;
+}
+
+@keyframes underlineSlide {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 60px;
+    opacity: 1;
+  }
+}
+
+/* LEFT: Text */
+.aboutLeft {
+  flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-.about .lineStyling .styleCircle {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+.welcomeBadge {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  width: fit-content;
+  animation: gentlePulse 2s infinite;
 }
 
-.about .lineStyling .styleLine {
-  width: 95%;
-  height: 5px;
-  border-radius: 10px;
-}
-
-.aboutBody {
-  display: grid;
-  grid-template-columns: 60% 40%;
-  padding-top: 8rem;
-  height: fit-content;
+@keyframes gentlePulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
 }
 
 .aboutDescription {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 0;
+  opacity: 0.9;
+}
+
+/* Highlights */
+.highlightsContainer {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-evenly;
-  flex: 0.5;
+  gap: 1rem;
+  margin: 0.5rem 0;
+}
+
+.highlight {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1.2rem;
+  border: 2px solid;
+  border-radius: 12px;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.02);
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.highlight.fadeInUp {
+  animation: fadeInUp 0.5s forwards;
+}
+
+.highlight:hover {
+  transform: translateX(8px) scale(1.02);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.highlightIcon {
+  font-size: 1.2rem;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* CTA Button */
+.ctaContainer {
+  margin-top: 1rem;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.buttonArrow {
+  transition: transform 0.3s ease;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.ctaButton:hover .buttonArrow {
+  transform: translateX(5px);
+}
+
+.ctaButton:active {
+  transform: translateY(0);
+}
+
+/* RIGHT: Image */
+.aboutRight {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.imageWrapper {
+  position: relative;
   width: 100%;
-  height: fit-content;
+  max-width: 400px;
+  aspect-ratio: 4 / 5;
+  border-radius: 30px;
+  overflow: hidden;
+  cursor: pointer;
 }
 
-.aboutDescription > h2 {
-  margin-bottom: 40px;
-  font-size: 2.5rem;
-  font-family: var(--primaryFont);
-}
-
-.aboutDescription > p {
-  font-size: 1.25rem;
-  color: #e0d9d9;
-  font-family: var(--primaryFont);
-}
-
-.aboutAnimation {
+.imageGlow {
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
   pointer-events: none;
+}
+
+.imageWrapper:hover .imageGlow {
+  opacity: 1;
+}
+
+.imageBorder {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border: 3px solid;
+  border-radius: 35px;
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.imageWrapper:hover .imageBorder {
+  opacity: 1;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+}
+
+.aboutImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: grayscale(15%);
+}
+
+.imageWrapper:hover .aboutImage {
+  transform: scale(1.06);
+  filter: grayscale(0%);
+}
+
+.imageOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  padding: 2rem;
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
-@media (min-width: 992px) and (max-width: 1380px) {
-  .aboutDescription > h2 {
-    font-size: 3.3rem;
-    margin-bottom: 30px;
-  }
-  .aboutDescription > p {
-    font-size: 1.15rem;
-  }
+.imageWrapper:hover .imageOverlay {
+  transform: translateY(0);
 }
 
-@media screen and (max-width: 992px) {
-  .about .lineStyling {
-    top: 20px;
-  }
-
-  .aboutBody {
-    padding-top: 2rem;
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    justify-content: space-evenly;
-  }
-
-  .aboutDescription {
-    flex: 0.6;
-    box-sizing: border-box;
-    /* padding: 5% 10%; */
-    padding: 20px;
-  }
-
-  .aboutDescription > h2 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-  }
-
-  .aboutDescription > p {
-    font-size: 1.1rem;
-  }
-
-  .aboutImg > img {
-    width: 250px;
-    flex: 0.4;
-  }
+.quoteText {
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease 0.1s;
 }
 
-@media screen and (max-width: 800px) {
-  .about .lineStyling .styleCircle {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
+.imageWrapper:hover .quoteText {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.floatingBadge {
+  position: absolute;
+  bottom: -15px;
+  right: -15px;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  animation: float 3s ease-in-out infinite;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+  white-space: nowrap;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
   }
-  .aboutDescription > h2 {
-    align-self: center;
+  50% {
+    transform: translateY(-8px);
   }
 }
 
-@media screen and (max-width: 600px) {
-  .about .lineStyling .styleCircle {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
+/* Animations */
+.fadeInLeft {
+  animation: fadeInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fadeInRight {
+  animation: fadeInRight 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
   }
-  .about .lineStyling .styleLine {
-    width: 93%;
-    height: 3px;
-    border-radius: 10px;
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .about {
+    padding: 3rem 2rem;
   }
 
-  .aboutDescription > h2 {
+  .aboutContainer {
+    flex-direction: column;
+    gap: 3rem;
+    max-width: 800px;
+  }
+
+  .sectionTitle {
     font-size: 2.5rem;
   }
 
-  .aboutDescription > p {
-    font-size: 0.95rem;
+  .aboutDescription {
+    font-size: 1rem;
   }
 
-  .aboutImg > img {
-    width: 200px;
+  .imageWrapper {
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about {
+    padding: 2rem 1.5rem;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .aboutDescription {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .highlightsContainer {
+    gap: 0.75rem;
+  }
+
+  .highlight {
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .ctaButton {
+    width: 100%;
+    justify-content: center;
+    padding: 0.8rem 1.5rem;
+  }
+
+  .floatingBadge {
+    bottom: -10px;
+    right: -5px;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    white-space: nowrap;
+  }
+
+  .imageWrapper {
+    max-width: 300px;
+  }
+
+  .quoteText {
+    font-size: 0.8rem;
+  }
+}
+
+/* Performance optimization */
+@media (prefers-reduced-motion: reduce) {
+  .about::before,
+  .welcomeBadge,
+  .floatingBadge,
+  .highlight,
+  .ctaButton,
+  .imageWrapper * {
+    animation: none;
+    transition: none;
   }
 }

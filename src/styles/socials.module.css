@@ -1,0 +1,38 @@
+.socials {
+  display: flex;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.socialLink {
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.small .socialLink {
+  font-size: 1.2rem;
+}
+
+.medium .socialLink {
+  font-size: 1.8rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.large .socialLink {
+  font-size: 2.2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.socialLink:hover {
+  transform: translateY(-5px);
+  background: rgba(22, 242, 179, 0.1);
+}
