@@ -32,6 +32,7 @@ function Experience() {
     <div
       style={{ backgroundColor: theme.secondary }}
       className="py-12 md:py-20"
+      id="experience"
     >
       <Container maxWidth="lg" id="experience">
         <motion.div
@@ -82,7 +83,7 @@ function Experience() {
               className="text-center mt-12"
             >
               {hasMore ? (
-                <button
+                <motion.button
                   onClick={showMore}
                   className="group relative px-8 py-3 rounded-full font-semibold transition-all duration-300 overflow-hidden"
                   style={{
@@ -109,9 +110,9 @@ function Experience() {
                       />
                     </svg>
                   </span>
-                </button>
+                </motion.button>
               ) : (
-                <button
+                <motion.button
                   onClick={showLess}
                   className="group px-8 py-3 rounded-full font-semibold transition-all duration-300"
                   style={{
@@ -138,7 +139,7 @@ function Experience() {
                       />
                     </svg>
                   </span>
-                </button>
+                </motion.button>
               )}
             </motion.div>
           )}
