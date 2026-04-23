@@ -121,7 +121,7 @@ const About = () => {
             </div>
           </div>
 
-          {/* Floating badge */}
+          {/* Floating badge — outside imageWrapper so it never covers the overlay */}
           <div
             className={styles.floatingBadge}
             style={{
