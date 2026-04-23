@@ -23,7 +23,7 @@ function HomePage({ blogs }) {
       <About />
       <Experience />
       <Skills />
-      <Projects />
+      {/* <Projects /> */}
       <Education />
       <Blog blogs={blogs} />
       <Contacts />

@@ -67,18 +67,21 @@ a {
   }
 }
 
-/* Smooth scroll reveal animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+* Add to your global CSS file */ .overflow-y-auto::-webkit-scrollbar {
+  width: 4px;
 }
 
-.reveal {
-  animation: fadeInUp 0.6s ease forwards;
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+/* Smooth transitions */
+button {
+  transition: all 0.3s ease;
 }
