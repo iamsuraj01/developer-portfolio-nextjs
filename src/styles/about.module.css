@@ -198,7 +198,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  /* floatingBadge is positioned relative to this */
   position: relative;
+  /* Add bottom padding so the badge doesn't get clipped */
+  padding-bottom: 20px;
 }
 
 .imageWrapper {
@@ -274,6 +277,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  /* Overlay stays inside imageWrapper — no badge overlap possible */
+  z-index: 2;
 }
 
 .imageWrapper:hover .imageOverlay {
@@ -294,9 +299,10 @@
   transform: translateY(0);
 }
 
+/* Badge is a child of aboutRight — completely outside imageWrapper */
 .floatingBadge {
   position: absolute;
-  bottom: -15px;
+  bottom: -5px;
   right: -15px;
   padding: 0.6rem 1.2rem;
   border-radius: 50px;
@@ -376,7 +382,13 @@
 
 @media (max-width: 768px) {
   .about {
-    padding: 2rem 1.5rem;
+    padding: 2rem 1.25rem;
+  }
+
+  /* Show image FIRST on mobile by reversing column order */
+  .aboutContainer {
+    flex-direction: column-reverse;
+    gap: 2.5rem;
   }
 
   .sectionTitle {
@@ -385,7 +397,7 @@
 
   .aboutDescription {
     font-size: 0.95rem;
-    line-height: 1.6;
+    line-height: 1.7;
   }
 
   .highlightsContainer {
@@ -403,16 +415,61 @@
     padding: 0.8rem 1.5rem;
   }
 
-  .floatingBadge {
-    bottom: -10px;
-    right: -5px;
-    font-size: 0.75rem;
-    padding: 0.4rem 0.8rem;
-    white-space: nowrap;
+  /* Image wrapper full-width on mobile */
+  .imageWrapper {
+    max-width: 100%;
+    width: 100%;
+    border-radius: 20px;
+    aspect-ratio: 4 / 4.5;
   }
 
-  .imageWrapper {
-    max-width: 300px;
+  /* Always show overlay on mobile — no hover required */
+  .imageOverlay {
+    transform: translateY(0);
+    padding: 1.5rem 1.25rem;
+  }
+
+  .quoteText {
+    opacity: 1;
+    transform: translateY(0);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  /* Full colour since overlay is always visible */
+  .aboutImage {
+    filter: grayscale(0%);
+  }
+
+  /* Badge stays inside the container, bottom-right, clear of the overlay */
+  .floatingBadge {
+    bottom: 5px;
+    right: 0;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about {
+    padding: 1.75rem 1rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.75rem;
+  }
+
+  .aboutLeft {
+    gap: 1.25rem;
+  }
+
+  .welcomeBadge {
+    font-size: 0.8rem;
+  }
+
+  .aboutDescription {
+    font-size: 0.9rem;
+    line-height: 1.65;
   }
 
   .quoteText {
