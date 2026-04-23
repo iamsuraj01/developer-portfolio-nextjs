@@ -4,7 +4,7 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Big+Shoulders+Text:wght@100;300;400;500;600;700&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,200;1,300;1,400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200&display=swap");
@@ -13,7 +13,8 @@
 @font-face {
   font-family: "BestermindRegular";
   src: url("../assets/fonts/Bestermind/BestermindRegular.ttf");
-  src: url("../assets/fonts/Bestermind/BestermindRegular.ttf")
+  src:
+    url("../assets/fonts/Bestermind/BestermindRegular.ttf")
       format("embedded-opentype"),
     url("../assets/fonts/Bestermind/BestermindRegular.ttf") format("truetype");
 }
@@ -64,4 +65,24 @@ a {
   body {
     overflow-x: hidden;
   }
+}
+
+/* Add to your global CSS file */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+/* Smooth transitions */
+button {
+  transition: all 0.3s ease;
 }
