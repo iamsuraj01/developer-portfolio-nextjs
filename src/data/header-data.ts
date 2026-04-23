@@ -38,7 +38,7 @@ export const landingData = {
   codeBlock: {
     variable: "coder",
     data: {
-      name: "Abu Said",
+      name: "Suraj Gaire",
       skills: [
         "React",
         "NextJS",
