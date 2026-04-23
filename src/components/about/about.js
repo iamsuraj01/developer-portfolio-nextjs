@@ -115,7 +115,8 @@ const About = () => {
             />
             <div className={styles.imageOverlay}>
               <div className={styles.quoteText} style={{ color: "white" }}>
-                "Code is poetry in motion"
+                "AI gives you solutions. Together, we find the ones that
+                actually work for you"
               </div>
             </div>
           </div>

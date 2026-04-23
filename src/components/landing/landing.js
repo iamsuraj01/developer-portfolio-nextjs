@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { ThemeContext } from "../../contexts/theme-context";
 import styles from "../../styles/landing.module.css";
-import Link from "next/link";
 import TypedComponent from "../animation/typed-component";
 import { landingData } from "../../data/header-data";
 import { socialLinksConfig, Socials } from "../socials/socials";
