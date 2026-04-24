@@ -102,7 +102,7 @@ function ExperienceCard({ experience, index }) {
                   >
                     {experience.jobtitle}
                   </h3>
-                  <div className="flex items-center gap-2 text-gray-300 text-sm">
+                  <div className="flex items-center gap-2 text-gray-500 text-sm">
                     <Building2 size={14} />
                     <span>{experience.company}</span>
                   </div>
@@ -154,7 +154,7 @@ function ExperienceCard({ experience, index }) {
                     Key Achievement
                   </span>
                 </div>
-                <p className="text-sm text-gray-300 leading-relaxed">
+                <p className="text--500 leading-relaxed text-gray-500 text-sm">
                   {experience.achievements[0]}
                 </p>
               </div>
@@ -193,7 +193,7 @@ function ExperienceCard({ experience, index }) {
                 {experience.responsibilities.map((item, i) => (
                   <li
                     key={i}
-                    className="flex items-start gap-2 text-sm text-gray-300"
+                    className="flex items-start gap-2 text--500 text-gray-500 text-sm"
                   >
                     <span className="text-primary mt-0.5">▹</span>
                     <span className="leading-relaxed">{item}</span>
