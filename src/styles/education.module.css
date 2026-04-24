@@ -1,169 +1,599 @@
 .education {
   min-height: fit-content;
+  padding: 4rem 1.5rem;
 }
 
 .educationBody {
-  display: grid;
-  grid-template-columns: 35% 65%;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  color: hsla(117, 56%, 49%, 0.702);
+  /* display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: 2rem;
+  max-width: 960px;
+  margin: 0 auto; */
+  margin: 0 auto;
+  max-width: 60rem;
+}
+
+.educationImage {
+  position: sticky;
+  top: 2rem;
+  pointer-events: none;
 }
 
 .educationDescription {
   width: 100%;
-  flex: 0.65;
-  padding: 2rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  margin-left: 7%;
 }
 
 .educationDescription > h1 {
-  font-size: 2.5rem;
   font-family: var(--primaryFont);
-  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
 }
 
+/* ── Card ── */
 .educationCard {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: 90%;
-  height: 140px;
-  padding: 1.5rem;
-  border-radius: 20px;
-  margin-bottom: 1.5rem;
-  transition: background-color 200ms ease-in-out;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease;
 }
 
+.educationCard::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.educationCard:hover,
+.educationCard.active {
+  transform: translateX(5px);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.educationCard:hover::before,
+.educationCard.active::before {
+  opacity: 1;
+}
+
+/* ── Icon ── */
 .educardImg {
-  border-radius: 50%;
-  width: 55px;
-  height: 55px;
+  border-radius: 12px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.educardImg > svg {
+  width: 24px;
+  height: 24px;
 }
 
-.educardImg > img {
-  width: 40px;
-}
-
+/* ── Text ── */
 .educationDetails {
-  margin-left: 0.6rem;
+  flex: 1;
+  min-width: 0;
 }
 
 .educationDetails > h6 {
   font-family: var(--primaryFont);
-  font-size: 0.85rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  /* color set via inline style from theme.primary */
 }
 
 .educationDetails > h4 {
   font-family: var(--primaryFont);
-  font-size: 1.225rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #f0f4ff; /* always bright white — readable on dark card */
 }
 
 .educationDetails > h5 {
   font-family: var(--primaryFont);
-  font-size: 1.15rem;
-  font-weight: 600;
+  font-size: 0.82rem;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #8899bb; /* soft blue-grey — always visible on dark bg */
 }
 
-.educationImage {
-  box-sizing: border-box;
-  padding: 1rem;
-  flex: 0.35;
-  margin-top: 1rem;
-  pointer-events: none;
+/* ── Arrow ── */
+.educardArrow {
+  align-self: center;
+  flex-shrink: 0;
+  opacity: 0;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+.educationCard:hover .educardArrow,
+.educationCard.active .educardArrow {
+  opacity: 1;
+  transform: translateX(3px);
 }
 
-.educationImage > img {
-  width: 100%;
-}
-
-@media (min-width: 992px) and (max-width: 1380px) {
-}
-
+/* ── Responsive ── */
 @media screen and (max-width: 992px) {
   .educationBody {
-    padding-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
+    grid-template-columns: 1fr;
+    padding-top: 1rem;
   }
-
-  .education {
-    min-height: 100%;
-  }
-  /* .educationImage {
-    display: none;
-  } */
-
-  .educationDescription {
-    flex: 1;
-    margin: auto;
+  .educationImage {
+    position: static;
+    max-width: 400px;
+    margin: 0 auto;
   }
   .educationDescription > h1 {
-    font-size: 3.2rem;
-  }
-  .educationCard {
-    width: 100%;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    font-size: 2.8rem;
+    text-align: center;
   }
 }
 
 @media screen and (max-width: 800px) {
-  .educationDescription > h1 {
-    font-size: 3rem;
-    margin-bottom: 2rem;
-    align-self: center;
+  .education {
+    padding: 2.5rem 1rem;
   }
-  .educationDescription {
-    padding: 1rem;
+  .educationDescription > h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1.25rem;
   }
   .educationCard {
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-    height: 130px;
+    padding: 0.875rem 1rem;
   }
   .educardImg {
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
   }
-
-  .educardImg > img {
-    width: 30px;
-  }
-  .educationDetails > h6 {
-    font-size: 0.85rem;
-    margin-bottom: 0.45rem;
-  }
-
-  .educationDetails > h4 {
-    font-size: 1.125rem;
-    line-height: 126%;
-  }
-
-  .educationDetails > h5 {
-    font-size: 1.05rem;
-    line-height: 126%;
+  .educardImg > svg {
+    width: 20px;
+    height: 20px;
   }
 }
 
 @media screen and (max-width: 600px) {
   .educationDescription > h1 {
-    font-size: 2.5rem;
+    font-size: 1.9rem;
+  }
+}
+
+/* Education Animation */
+.sceneWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem 0;
+}
+
+.scene {
+  position: relative;
+  width: 240px;
+  height: 340px;
+}
+
+/* ── Stars ── */
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: sPulse 2s ease-in-out infinite;
+}
+.star1 {
+  width: 5px;
+  height: 5px;
+  top: 5%;
+  left: 8%;
+  animation-delay: 0s;
+}
+.star2 {
+  width: 3px;
+  height: 3px;
+  top: 10%;
+  left: 80%;
+  animation-delay: 0.5s;
+  opacity: 0.7;
+}
+.star3 {
+  width: 4px;
+  height: 4px;
+  top: 25%;
+  left: 92%;
+  animation-delay: 1s;
+}
+.star4 {
+  width: 3px;
+  height: 3px;
+  top: 60%;
+  left: 3%;
+  animation-delay: 0.3s;
+  opacity: 0.7;
+}
+.star5 {
+  width: 4px;
+  height: 4px;
+  top: 80%;
+  left: 88%;
+  animation-delay: 0.8s;
+}
+.star6 {
+  width: 2px;
+  height: 2px;
+  top: 45%;
+  left: 96%;
+  animation-delay: 1.4s;
+}
+
+@keyframes sPulse {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.6);
+  }
+}
+
+/* ── Ripple rings ── */
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  opacity: 0;
+  animation: ringOut 4s ease-out infinite;
+  bottom: 28px;
+  left: 50%;
+}
+.ring:nth-child(4) {
+  width: 60px;
+  height: 18px;
+  margin-left: -30px;
+  animation-delay: 0s;
+}
+.ring:nth-child(5) {
+  width: 100px;
+  height: 30px;
+  margin-left: -50px;
+  animation-delay: 0.7s;
+}
+.ring:nth-child(6) {
+  width: 150px;
+  height: 44px;
+  margin-left: -75px;
+  animation-delay: 1.4s;
+}
+
+@keyframes ringOut {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.7;
+  }
+  80% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ── Person ── */
+.person {
+  position: absolute;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 240px;
+  animation: bodyBob 2s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+@keyframes bodyBob {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-7px);
+  }
+}
+
+/* gown */
+.gown {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 140px;
+  background: #1a1a2e;
+  border-radius: 8px 8px 22px 22px;
+  clip-path: polygon(14% 0%, 86% 0%, 100% 100%, 0% 100%);
+}
+.gownStripe {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 9px;
+  height: 88px;
+  background: var(--accent);
+  border-radius: 4px;
+  opacity: 0.75;
+}
+
+/* torso */
+.torso {
+  position: absolute;
+  bottom: 108px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 62px;
+  background: #1a1a2e;
+  border-radius: 6px;
+}
+
+/* collar */
+.collar {
+  position: absolute;
+  bottom: 164px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 18px;
+  background: #e8e0d5;
+  border-radius: 4px 4px 0 0;
+}
+
+/* head */
+.head {
+  position: absolute;
+  bottom: 178px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 56px;
+  background: #c8a882;
+  border-radius: 50% 50% 44% 44%;
+  animation: headTilt 2s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+@keyframes headTilt {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-4deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(6deg);
+  }
+}
+
+/* face */
+.eye {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: #3a2510;
+  border-radius: 50%;
+  top: 22px;
+}
+.eyeL {
+  left: 10px;
+}
+.eyeR {
+  right: 10px;
+}
+.smile {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 8px;
+  border-bottom: 2.5px solid #3a2510;
+  border-radius: 0 0 10px 10px;
+}
+
+/* arms */
+.arm {
+  position: absolute;
+  width: 15px;
+  height: 60px;
+  background: #1a1a2e;
+  border-radius: 7px;
+  bottom: 118px;
+  transform-origin: top center;
+}
+.armL {
+  left: 4px;
+  animation: armL 2s ease-in-out infinite;
+}
+.armR {
+  right: 4px;
+  animation: armR 2s ease-in-out infinite;
+}
+@keyframes armL {
+  0%,
+  100% {
+    transform: rotate(28deg);
+  }
+  50% {
+    transform: rotate(-28deg);
+  }
+}
+@keyframes armR {
+  0%,
+  100% {
+    transform: rotate(-118deg);
+  }
+  50% {
+    transform: rotate(-158deg);
+  }
+}
+.hand {
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 13px;
+  height: 13px;
+  background: #c8a882;
+  border-radius: 50%;
+}
+
+/* cap toss */
+.capToss {
+  position: absolute;
+  animation: capToss 2s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes capToss {
+  0%,
+  100% {
+    bottom: 224px;
+    left: calc(50% + 12px);
+    transform: translateX(-50%) rotate(-10deg) scale(0.88);
+  }
+  40% {
+    bottom: 295px;
+    left: calc(50% + 28px);
+    transform: translateX(-50%) rotate(24deg) scale(1.05);
+  }
+  60% {
+    bottom: 270px;
+    left: calc(50% + 20px);
+    transform: translateX(-50%) rotate(16deg) scale(1);
+  }
+}
+.capBoard {
+  width: 66px;
+  height: 66px;
+  background: #1a1a2e;
+  border-radius: 4px;
+  position: relative;
+  transform: perspective(220px) rotateX(22deg);
+}
+.capBoard::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1.5px solid #2d2d4e;
+  border-radius: 2px;
+}
+.capTopRim {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 76px;
+  height: 11px;
+  background: #111124;
+  border-radius: 3px;
+}
+.capTassel {
+  position: absolute;
+  top: 4px;
+  right: 7px;
+  width: 2px;
+  height: 26px;
+  background: #f5c518;
+  border-radius: 1px;
+  animation: tasselWave 2s ease-in-out infinite;
+  transform-origin: top center;
+}
+.capTassel::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: -3px;
+  width: 8px;
+  height: 9px;
+  background: #f5c518;
+  border-radius: 0 0 4px 4px;
+}
+@keyframes tasselWave {
+  0%,
+  100% {
+    transform: rotate(-15deg);
+  }
+  50% {
+    transform: rotate(22deg);
+  }
+}
+
+/* ground shadow */
+.shadow {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 11px;
+  background: rgba(29, 158, 117, 0.15);
+  border-radius: 50%;
+  animation: shadowScale 2s ease-in-out infinite;
+}
+@keyframes shadowScale {
+  0%,
+  100% {
+    transform: translateX(-50%) scaleX(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(-50%) scaleX(0.6);
+    opacity: 0.3;
+  }
+}
+
+/* ── Responsive ── */
+@media screen and (max-width: 992px) {
+  .scene {
+    width: 200px;
+    height: 290px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .scene {
+    width: 170px;
+    height: 250px;
+  }
+  .person {
+    transform-origin: bottom center;
   }
 }
